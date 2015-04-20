@@ -30,11 +30,13 @@ $haiku_generate_class = function ($txtClass)
 {
 	$txtResult = "";
 
+	global $haiku_find_file;
+
 	$txtTemplate = $haiku_find_file("classTemplate.php");
 	if ($txtTemplate != "")
 	{
 		$txtCodeSource 	= file_get_contents("$txtTemplate");
-		$txtTargetDir  	= dirname($txtCodeSource);
+		$txtTargetDir  	= dirname($txtTemplate);
 		$txtTargetFile 	= "$txtTargetDir/class$txtClass.php";
 
 		$tabReplace    	= [
@@ -47,6 +49,8 @@ $haiku_generate_class = function ($txtClass)
 
 		$txtCodeTarget 	= str_replace($tabSource, $tabTarget, $txtCodeSource);
 		file_put_contents($txtTargetFile, $txtCodeTarget);
+
+		$txtResult = $txtTargetFile;
 	}
 
 	return $txtResult;
@@ -54,6 +58,9 @@ $haiku_generate_class = function ($txtClass)
 
 $haiku_class_autoload = function ($txtClass)
 {
+	global $haiku_find_file;
+	global $haiku_generate_class;
+
 	$txtPath = $haiku_find_file("class$txtClass.php");
 	if ($txtPath != "")
 	{
@@ -69,4 +76,4 @@ $haiku_class_autoload = function ($txtClass)
 	}
 };
 
-spl_autoload_register('haiku_class_autoload');
+spl_autoload_register($haiku_class_autoload);
