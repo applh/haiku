@@ -9,7 +9,10 @@
 *
 */
 
+// the class Page
+// inherits from the class ControllerParent
 class Page
+	extends ControllerParent
 {
 	//-- CLASS CODE BEGINS
 
@@ -22,10 +25,43 @@ class Page
 	// CONSTRUCTOR
 	function __construct ()
 	{
+		// DO THE PARENT CONSTRUCTOR
+		parent::__construct();
+
 		// ATTRIBUTES INIT
 		$this->pageContent 	= "";
 		$this->pageName 	= "index";
 
+		// PROCESS THE FORMS
+		$this->processForm();
+
+		// SHOW THE PAGE CONTENT
+		$this->showContent();
+	}
+
+	function processForm ()
+	{
+		$formhid = $this->getInput("formhid");
+		if ($formhid != "")
+		{
+			// PROCESS EACH FORM HERE
+			if ($formhid == "contact")
+			{
+				// PROCESS CONTACT FORM
+				$controllerForm = new ControllerContact;
+
+			}
+			elseif ($formhid == "newsletter")
+			{
+				// PROCESS NEWSLETTER FORM
+				$controllerForm = new ControllerNewsletter;
+			}
+		}
+	}
+
+	//
+	function showContent ()
+	{
 		global $haiku_find_file;
 		$txtPageFile = "{$this->pageName}.html";
 		$txtHtmlFile = $haiku_find_file($txtPageFile);
@@ -34,13 +70,6 @@ class Page
 			$this->pageContent = file_get_contents($txtHtmlFile);
 		}
 
-		// SHOW THE PAGE CONTENT
-		$this->showContent();
-	}
-
-	//
-	function showContent ()
-	{
 		echo $this->pageContent;
 	}
 
