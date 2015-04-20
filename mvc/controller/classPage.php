@@ -14,14 +14,34 @@ class Page
 	//-- CLASS CODE BEGINS
 
 	//-- ATTRIBUTES
-
+	public $pageName;
+	public $pageContent;
 
 	//-- METHODS
 
 	// CONSTRUCTOR
 	function __construct ()
 	{
-		// WRITE YOUR CODE HERE
+		// ATTRIBUTES INIT
+		$this->pageContent 	= "";
+		$this->pageName 	= "index";
+
+		global $haiku_find_file;
+		$txtPageFile = "{$this->pageName}.html";
+		$txtHtmlFile = $haiku_find_file($txtPageFile);
+		if ($txtHtmlFile != "")
+		{
+			$this->pageContent = file_get_contents($txtHtmlFile);
+		}
+
+		// SHOW THE PAGE CONTENT
+		$this->showContent();
+	}
+
+	//
+	function showContent ()
+	{
+		echo $this->pageContent;
 	}
 
 	//-- CLASS CODE ENDS
