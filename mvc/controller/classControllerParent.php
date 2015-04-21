@@ -170,6 +170,8 @@ class ControllerParent
 	{
 		$result = "";
 		// TODO
+		$dbManager = new DatabaseManager;
+		$modelPage = new ModelPage;
 
 		return $result;
 	}
