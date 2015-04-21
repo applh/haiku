@@ -10,6 +10,7 @@
 */
 
 class ControllerNewsletter
+	extends ControllerParent
 {
 	//-- CLASS CODE BEGINS
 
@@ -21,7 +22,41 @@ class ControllerNewsletter
 	// CONSTRUCTOR
 	function __construct ()
 	{
-		// WRITE YOUR CODE HERE
+		// DO THE PARENT CONSTRUCTOR
+		parent::__construct();
+
+		// PROCESS THE CONTACT FORM
+		$this->processForm();
+	}
+
+	function processForm ()
+	{
+		$email 		= $this->getInput("email");
+
+		if ($email)
+		{
+			// CHECK INSTALL
+			$txtDataDir = $this->findFile("form-newsletter");
+			if ( !is_dir($txtDataDir) )
+			{
+				$txtDataDir = $this->txtBaseDir."/data-txt/form-newsletter";
+				mkdir($txtDataDir, 0777, true);
+			}
+
+			$now = date("Ymd-His");
+			$ip  = $_SERVER["REMOTE_ADDR"];
+
+			$txtSaveFile = "$txtDataDir/newsletter.csv";
+
+			$txtSaveContent =
+<<<TXTCONTENT
+$email,$now,$ip
+
+TXTCONTENT;
+			// WRITE THE MESSAGE
+			file_put_contents($txtSaveFile, $txtSaveContent, FILE_APPEND);
+			chmod($txtSaveFile, 0666);
+		}
 	}
 
 	//-- CLASS CODE ENDS

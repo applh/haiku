@@ -12,6 +12,7 @@
 class ControllerParent
 {
 	//-- CLASS CODE BEGINS
+	public $txtBaseDir;
 
 	//-- ATTRIBUTES
 
@@ -21,7 +22,8 @@ class ControllerParent
 	// CONSTRUCTOR
 	function __construct ()
 	{
-		// WRITE YOUR CODE HERE
+		// get parent dir
+		$this->txtBaseDir = dirname(__DIR__);
 	}
 
 	// check the input value
@@ -33,14 +35,40 @@ class ControllerParent
 
 		if ( isset($_REQUEST["$txtInputName"]) )
 		{
-			$result = $_REQUEST["$txtInputName"];
+			$result = trim($_REQUEST["$txtInputName"]);
 		}
 		elseif ( isset($_COOKIE["$txtInputName"]) )
 		{
-			$result = $_COOKIE["$txtInputName"];
+			$result = trim($_COOKIE["$txtInputName"]);
 		}
 
 		return $result;
+	}
+
+	function findFile ($txtFile)
+	{
+		$txtResult = "";
+
+		// get parent dir
+		$txtCurDir = $this->txtBaseDir;
+
+		// SEARCH IN LEVEL 1
+		$tabResult = glob("$txtCurDir/*/$txtFile");
+		if (count($tabResult)  > 0)
+		{
+			$txtResult = $tabResult[0];
+		}
+		else
+		{
+			// SEARCH IN LEVEL 2
+			$tabResult = glob("$txtCurDir/*/*/$txtFile");
+			if (count($tabResult)  > 0)
+			{
+				$txtResult = $tabResult[0];
+			}
+		}
+
+		return $txtResult;
 	}
 
 	//-- CLASS CODE ENDS

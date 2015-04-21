@@ -50,6 +50,9 @@ $haiku_generate_class = function ($txtClass)
 		$txtCodeTarget 	= str_replace($tabSource, $tabTarget, $txtCodeSource);
 		file_put_contents($txtTargetFile, $txtCodeTarget);
 
+		// GIVE WRITE ACCESS
+		chmod($txtTargetFile, 0666);
+
 		$txtResult = $txtTargetFile;
 	}
 
