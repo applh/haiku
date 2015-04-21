@@ -37,7 +37,7 @@
 
       <div class="site-wrapper-inner">
 
-        <div class="cover-container">
+        <div class="container">
 
           <div class="masthead clearfix">
             <div class="inner">
@@ -45,22 +45,50 @@
               <nav>
                 <ul class="nav masthead-nav">
                   <li class="active"><a href="#">Home</a></li>
-                  <li><a href="#">Features</a></li>
-                  <li><a href="#">Contact</a></li>
+                  <li><a href="#features">Features</a></li>
+                  <li><a href="#contact">Contact</a></li>
                 </ul>
               </nav>
             </div>
           </div>
 
-          <div class="inner cover">
+        <div class="container cover">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2">
             <h1 class="cover-heading">Haiku1 and Bootstrap</h1>
             <p class="lead">Haiku1 is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>
             <p class="lead">
               <a href="#" class="btn btn-lg btn-default">Learn more</a>
             </p>
-          </div>
+		        </div>
+			</div>
+		</div>
 
-          <div class="mastfoot">
+		<div class="container" id="contact">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2">
+				<form>
+ <div class="form-group">
+    <label for="exampleInputEmail1">Your Email</label>
+    <input type="email" class="form-control" name="email" placeholder="Your email">
+</div>
+<div class="form-group">
+    <label for="exampleInputEmail1">Your Name</label>
+    <input type="text" class="form-control" name="name" placeholder="Your name">
+</div>
+	<div class="form-group">
+<label for="exampleInputPassword1">Your Message</label>
+<textarea class="form-control" rows="6">Hello,
+
+</textarea>
+	</div>
+<button type="submit" class="btn btn-default">Submit</button>
+				</form>
+				</div>
+			</div>
+		</div>
+
+          <div class="mastfoot container">
             <div class="inner">
               <p>Haiku template with <a href="http://getbootstrap.com">Bootstrap</a></p>
             </div>
