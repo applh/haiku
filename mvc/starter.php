@@ -26,6 +26,34 @@ $haiku_find_file = function ($txtFile)
 	return $txtResult;
 };
 
+
+$haiku_page_name = function ()
+{
+	$result = "";
+
+	$txtRootDir = $_SERVER["DOCUMENT_ROOT"];
+	// EXTRACT THE URI
+	$txtURI		= $_SERVER["REQUEST_URI"];
+	$tabUrl		= parse_url($txtURI);
+	$txtPath	= $tabUrl["path"];
+	$txtPathEnd = substr($txtPath, -1);
+	if ($txtPathEnd != "/")
+	{
+		// EXTRACT THE FILENAME
+		$tabPath	= pathinfo($txtPath);
+		$txtFileName= $tabPath["filename"];
+	}
+	else
+	{
+		$txtFileName= "index";				
+	}
+
+	$result = $txtFileName;
+
+	return $result;
+};
+
+
 $haiku_generate_class = function ($txtClass)
 {
 	$txtResult = "";

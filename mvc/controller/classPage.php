@@ -46,7 +46,7 @@ class Page
 
 		$this->objSite = new Site;
 		$this->objSite->setup($this->pageName);
-		
+
 		$accessOK = $this->checkAccess();
 
 		if ($accessOK)
@@ -94,28 +94,28 @@ class Page
 				// PROCESS CONTACT FORM
 				$controllerForm = new ControllerContact;
 
-				$this->objSite->replace(	"=MESSAGE-CONTACT=",
+				$this->objSite->replace(	"=MESSAGE_CONTACT=",
 											$controllerForm->txtMessage );
 			}
 			elseif ($formhid == "newsletter")
 			{
 				// PROCESS NEWSLETTER FORM
 				$controllerForm = new ControllerNewsletter;
-				$this->objSite->replace(	"=MESSAGE-NEWSLETTER=",
+				$this->objSite->replace(	"=MESSAGE_NEWSLETTER=",
 											$controllerForm->txtMessage );
 			}
 			elseif ($formhid == "login")
 			{
 				// PROCESS NEWSLETTER FORM
 				$controllerForm = new ControllerLogin($formhid);
-				$this->objSite->replace(	"=MESSAGE-LOGIN=",
+				$this->objSite->replace(	"=MESSAGE_LOGIN=",
 											$controllerForm->txtMessage );
 			}
 			elseif ($formhid == "logout")
 			{
 				// PROCESS NEWSLETTER FORM
 				$controllerForm = new ControllerLogin($formhid);
-				$this->objSite->replace(	"=MESSAGE-LOGIN=",
+				$this->objSite->replace(	"=MESSAGE_LOGIN=",
 											$controllerForm->txtMessage );
 			}
 		}
@@ -132,6 +132,13 @@ class Page
 		$tabContent = array_values($this->tabTranslate);
 
 		$this->pageContent = str_replace($tabTag, $tabContent, $this->pageContent);
+	}
+
+	function cleanTranslate ()
+	{
+		// REMOVE REMAINING TAGS
+		$pattern = "/=[\w]+=/";
+		$this->pageContent = preg_replace($pattern, "", $this->pageContent);
 	}
 
 	//
@@ -155,6 +162,8 @@ class Page
 		}
 
 		$this->replaceContent();
+
+		$this->cleanTranslate();
 
 		echo $this->pageContent;
 	}

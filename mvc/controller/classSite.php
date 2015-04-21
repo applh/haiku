@@ -40,19 +40,15 @@ class Site
 		// SPECIFIC FOR A PAGE
 		if ($txtPageName == "index")
 		{
-			$this->replace("=TITLE=", 				"Welcome");
-			$this->replace("=MESSAGE-NEWSLETTER=", 	"");
-			$this->replace("=MESSAGE-CONTACT=", 	"");
+			$this->replace("=TITLE=", 			"Welcome");
 		}
 		elseif ($txtPageName == "login")
 		{
 			$this->replace("=TITLE=", 			"Login");
-			$this->replace("=MESSAGE-LOGIN=", 	"");
 		}
 		elseif ($txtPageName == "private")
 		{
 			$this->replace("=TITLE=", 			"Private");
-			$this->replace("=MESSAGE-LOGIN=", 	"");
 		}
 
 	}

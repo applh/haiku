@@ -4,4 +4,4 @@
 include("mvc/starter.php");
 
 // create the page
-$page = new Page("private");
+$page = new Installer(__FILE__);
