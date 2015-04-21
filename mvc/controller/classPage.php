@@ -20,6 +20,9 @@ class Page
 	public $pageName;
 	public $pageContent;
 	public $hasAccess;
+	public $tabTranslate;
+
+	public $objSite;
 
 	//-- METHODS
 
@@ -34,10 +37,14 @@ class Page
 		$this->pageName 	= "index";
 		$this->hasAccess    = true;
 
+		$this->tabTranslate	= [];
+
 		if ($txtPageName != "")
 		{
 			$this->pageName = $txtPageName;
 		}
+
+		$this->objSite = new Site;
 
 		$accessOK = $this->checkAccess();
 
@@ -55,7 +62,7 @@ class Page
 
 	function checkAccess ()
 	{
-		if ( strpos($this->pageName, "private") !== FALSE)
+		if ( strpos($this->pageName, "private") !== FALSE )
 		{
 			// THIS IS A PRIVATE PAGE
 			$this->hasAccess = false;
@@ -85,7 +92,6 @@ class Page
 			{
 				// PROCESS CONTACT FORM
 				$controllerForm = new ControllerContact;
-
 			}
 			elseif ($formhid == "newsletter")
 			{
@@ -105,16 +111,40 @@ class Page
 		}
 	}
 
+	// TEMPLATE ENGINE
+	// replace tags (e.g =MYTAGS= with final content)
+	function replaceContent ()
+	{
+		$this->tabTranslate = $this->objSite->getTranslate($this->pageName)
+								+ $this->tabTranslate;
+
+		$tabTag 	= array_keys($this->tabTranslate);
+		$tabContent = array_values($this->tabTranslate);
+
+		$this->pageContent = str_replace($tabTag, $tabContent, $this->pageContent);
+	}
+
 	//
 	function showContent ()
 	{
-		global $haiku_find_file;
 		$txtPageFile = "{$this->pageName}.html";
-		$txtHtmlFile = $haiku_find_file($txtPageFile);
-		if ($txtHtmlFile != "")
+
+		// CHECK IF HTML FILE IS PRESENT
+		$this->pageContent = $this->getFileContent($txtPageFile);
+		$hasHtmlEnd = strpos( $this->pageContent, "</body>");
+		if ($hasHtmlEnd === FALSE)
 		{
-			$this->pageContent = file_get_contents($txtHtmlFile);
+			// MISSING END TAG </body>
+			// FIND HEAD AND FOOT HTML
+			$txtHtmlHead = $this->getFileContent("head.html");
+			$txtHtmlFoot = $this->getFileContent("foot.html");
+			// COMPLETE THE PAGE HTML
+			$this->pageContent =
+				$txtHtmlHead . $this->pageContent . $txtHtmlFoot;
+
 		}
+
+		$this->replaceContent();
 
 		echo $this->pageContent;
 	}

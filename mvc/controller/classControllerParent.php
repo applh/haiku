@@ -149,5 +149,17 @@ class ControllerParent
 
 	}
 
+	function getFileContent ($txtFileName)
+	{
+		$result = "";
+		$txtFilePath = $this->findFile($txtFileName);
+		if ($txtFilePath != "")
+		{
+			$result = file_get_contents($txtFilePath);
+		}
+
+		return $result;
+	}
+
 	//-- CLASS CODE ENDS
 };
