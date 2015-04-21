@@ -45,7 +45,8 @@ class Page
 		}
 
 		$this->objSite = new Site;
-
+		$this->objSite->setup($this->pageName);
+		
 		$accessOK = $this->checkAccess();
 
 		if ($accessOK)
@@ -92,21 +93,30 @@ class Page
 			{
 				// PROCESS CONTACT FORM
 				$controllerForm = new ControllerContact;
+
+				$this->objSite->replace(	"=MESSAGE-CONTACT=",
+											$controllerForm->txtMessage );
 			}
 			elseif ($formhid == "newsletter")
 			{
 				// PROCESS NEWSLETTER FORM
 				$controllerForm = new ControllerNewsletter;
+				$this->objSite->replace(	"=MESSAGE-NEWSLETTER=",
+											$controllerForm->txtMessage );
 			}
 			elseif ($formhid == "login")
 			{
 				// PROCESS NEWSLETTER FORM
 				$controllerForm = new ControllerLogin($formhid);
+				$this->objSite->replace(	"=MESSAGE-LOGIN=",
+											$controllerForm->txtMessage );
 			}
 			elseif ($formhid == "logout")
 			{
 				// PROCESS NEWSLETTER FORM
 				$controllerForm = new ControllerLogin($formhid);
+				$this->objSite->replace(	"=MESSAGE-LOGIN=",
+											$controllerForm->txtMessage );
 			}
 		}
 	}

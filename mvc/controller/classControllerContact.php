@@ -65,6 +65,12 @@ TXTCONTENT;
 			// WRITE THE MESSAGE
 			file_put_contents($txtSaveFile, $txtSaveContent);
 			chmod($txtSaveFile, 0666);
+
+			$this->txtMessage = "THANKS FOR YOUR MESSAGE";
+		}
+		else
+		{
+			$this->txtMessage = "THANKS TO COMPLETE MISSING INFORMATION";
 		}
 	}
 

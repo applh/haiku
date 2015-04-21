@@ -31,7 +31,7 @@ class Site
 
 	}
 
-	function getTranslate ($txtPageName)
+	function setup ($txtPageName)
 	{
 		// COMMON TO THE SITE
 		$this->replace(	"=LOGO=",
@@ -40,16 +40,25 @@ class Site
 		// SPECIFIC FOR A PAGE
 		if ($txtPageName == "index")
 		{
-			$this->replace("=TITLE=", "Welcome");
+			$this->replace("=TITLE=", 				"Welcome");
+			$this->replace("=MESSAGE-NEWSLETTER=", 	"");
+			$this->replace("=MESSAGE-CONTACT=", 	"");
 		}
 		elseif ($txtPageName == "login")
 		{
-			$this->replace("=TITLE=", "Login");
+			$this->replace("=TITLE=", 			"Login");
+			$this->replace("=MESSAGE-LOGIN=", 	"");
 		}
 		elseif ($txtPageName == "private")
 		{
-			$this->replace("=TITLE=", "Private");
+			$this->replace("=TITLE=", 			"Private");
+			$this->replace("=MESSAGE-LOGIN=", 	"");
 		}
+
+	}
+
+	function getTranslate ()
+	{
 
 		return $this->tabTranslate;
 	}

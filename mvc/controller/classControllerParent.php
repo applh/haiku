@@ -15,6 +15,8 @@ class ControllerParent
 	public $txtBaseDir;
 	public $txtCookieName;
 
+	public $txtMessage;
+
 	//-- ATTRIBUTES
 
 
@@ -28,6 +30,9 @@ class ControllerParent
 
 		// cookie
 		$this->cookieName = "haikuCookie64";
+
+		// message from form controller
+		$this->txtMessage = "";
 	}
 
 	// check the input value

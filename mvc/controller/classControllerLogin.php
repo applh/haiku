@@ -48,6 +48,8 @@ class ControllerLogin
 
 	function processFormLogout ()
 	{
+		$this->txtMessage = "YOU ARE NOW DISCONNECTED";
+
 		$this-> saveCookieLogin ("", "");
 	}
 
@@ -65,8 +67,18 @@ class ControllerLogin
 			{
 				$this-> saveCookieLogin ($email, $password);
 
+				$this->txtMessage = "WELCOME";
+
 				header("Location: private.php");
 			}
+			else
+			{
+				$this->txtMessage = "THANKS TO ENTER VALID INFORMATION";
+			}
+		}
+		else
+		{
+			$this->txtMessage = "THANKS TO ENTER ALL INFORMATION";
 		}
 
 	}

@@ -56,6 +56,13 @@ TXTCONTENT;
 			// WRITE THE MESSAGE
 			file_put_contents($txtSaveFile, $txtSaveContent, FILE_APPEND);
 			chmod($txtSaveFile, 0666);
+
+			$this->txtMessage = "THANKS FOR YOUR INTEREST";
+
+		}
+		else
+		{
+			$this->txtMessage = "THANKS TO ENTER AN EMAIL";
 		}
 	}
 
