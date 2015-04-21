@@ -166,5 +166,13 @@ class ControllerParent
 		return $result;
 	}
 
+	function getDatabaseContent ($pageName)
+	{
+		$result = "";
+		// TODO
+
+		return $result;
+	}
+
 	//-- CLASS CODE ENDS
 };

@@ -141,6 +141,8 @@ class Page
 		$this->pageContent = preg_replace($pattern, "", $this->pageContent);
 	}
 
+
+
 	//
 	function showContent ()
 	{
@@ -148,6 +150,23 @@ class Page
 
 		// CHECK IF HTML FILE IS PRESENT
 		$this->pageContent = $this->getFileContent($txtPageFile);
+
+		// CHECK IF DB LINE IS PRESENT
+		if ($this->pageContent == "")
+		{
+			$this->pageContent = $this->getDatabaseContent($this->pageName);
+		}
+
+		// CHECK IF 404 FILE IS PRESENT
+		if ($this->pageContent == "")
+		{
+			// TRY THE 404 FILE
+			$this->pageContent = $this->getFileContent("404.html");
+
+			// SET THE HEADER RESPONSE CODEr
+			header("HTTP/1.0 404 Not Found");
+		}
+
 		$hasHtmlEnd = strpos( $this->pageContent, "</body>");
 		if ($hasHtmlEnd === FALSE)
 		{
