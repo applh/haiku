@@ -19,11 +19,12 @@ class Page
 	//-- ATTRIBUTES
 	public $pageName;
 	public $pageContent;
+	public $hasAccess;
 
 	//-- METHODS
 
 	// CONSTRUCTOR
-	function __construct ()
+	function __construct ($txtPageName)
 	{
 		// DO THE PARENT CONSTRUCTOR
 		parent::__construct();
@@ -31,12 +32,47 @@ class Page
 		// ATTRIBUTES INIT
 		$this->pageContent 	= "";
 		$this->pageName 	= "index";
+		$this->hasAccess    = true;
 
-		// PROCESS THE FORMS
-		$this->processForm();
+		if ($txtPageName != "")
+		{
+			$this->pageName = $txtPageName;
+		}
 
-		// SHOW THE PAGE CONTENT
-		$this->showContent();
+		$accessOK = $this->checkAccess();
+
+		if ($accessOK)
+		{
+			// PROCESS THE FORMS
+			$this->processForm();
+
+			// SHOW THE PAGE CONTENT
+			$this->showContent();
+
+		}
+
+	}
+
+	function checkAccess ()
+	{
+		if ( strpos($this->pageName, "private") !== FALSE)
+		{
+			// THIS IS A PRIVATE PAGE
+			$this->hasAccess = false;
+			// NEED TO CHECK USER
+			$userOK = $this-> checkUserCookie ();
+
+			if (! $userOK)
+			{
+				header('Location: login.php');
+			}
+			else
+			{
+				$this->hasAccess = true;
+			}
+		}
+
+		return $this->hasAccess;
 	}
 
 	function processForm ()
@@ -55,6 +91,16 @@ class Page
 			{
 				// PROCESS NEWSLETTER FORM
 				$controllerForm = new ControllerNewsletter;
+			}
+			elseif ($formhid == "login")
+			{
+				// PROCESS NEWSLETTER FORM
+				$controllerForm = new ControllerLogin($formhid);
+			}
+			elseif ($formhid == "logout")
+			{
+				// PROCESS NEWSLETTER FORM
+				$controllerForm = new ControllerLogin($formhid);
 			}
 		}
 	}

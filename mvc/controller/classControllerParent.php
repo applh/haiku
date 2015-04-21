@@ -13,6 +13,7 @@ class ControllerParent
 {
 	//-- CLASS CODE BEGINS
 	public $txtBaseDir;
+	public $txtCookieName;
 
 	//-- ATTRIBUTES
 
@@ -24,6 +25,9 @@ class ControllerParent
 	{
 		// get parent dir
 		$this->txtBaseDir = dirname(__DIR__);
+
+		// cookie
+		$this->cookieName = "haikuCookie64";
 	}
 
 	// check the input value
@@ -69,6 +73,80 @@ class ControllerParent
 		}
 
 		return $txtResult;
+	}
+
+	function checkLogin ($email, $password)
+	{
+		// TEMP CODE
+		$result 	= false;
+
+		$email0 	= "haiku@gmail.com";
+		$password0 	= "haiku";
+
+		if ( ($email == $email0) && ($password == $password0) )
+		{
+			$result = true;
+		}
+
+		return $result;
+	}
+
+
+	function checkUserCookie ()
+	{
+		$result = false;
+
+		// GET DATA IN COOKIE
+		$txtCookie64 = $this-> getInput ($this->cookieName);
+		if ($txtCookie64)
+		{
+			$txtCookie 		= base64_decode($txtCookie64);
+			$tabCookie 		= json_decode ($txtCookie, true);
+			if ( is_array ($tabCookie) )
+			{
+				$email 		= "";
+				$password 	= "";
+
+				if ( isset($tabCookie["email"]) )
+				{
+					$email		= $tabCookie["email"];
+				}
+				if ( isset($tabCookie["password"]) )
+				{
+					$password	= $tabCookie["password"];
+				}
+
+				$result = $this-> checkLogin ($email, $password);
+			}
+		}
+
+		return $result;
+	}
+
+	function saveCookieLogin ($email, $password)
+	{
+		// SAVE DATA IN COOKIE
+		$txtCookie64 = $this-> getInput ($this->cookieName);
+		if ($txtCookie64)
+		{
+			$txtCookie = base64_decode($txtCookie64);
+			$tabCookie = json_decode ($txtCookie, true);
+		}
+		else
+		{
+			$tabCookie = [];
+		}
+
+		$tabCookie["email"] 	= $email;
+		$tabCookie["password"] 	= $password;
+		// JSON encode
+		$txtJSON 	= json_encode($tabCookie);
+		// BASE 64 ENCODE
+		$txtSave64 	= base64_encode($txtJSON);
+
+		// SAVE THE DATA
+		setcookie($this->cookieName, $txtSave64);
+
 	}
 
 	//-- CLASS CODE ENDS

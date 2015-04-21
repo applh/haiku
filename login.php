@@ -4,4 +4,4 @@
 include("mvc/starter.php");
 
 // create the page
-$page = new Page("index");
+$page = new Page("login");
