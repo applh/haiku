@@ -19,18 +19,25 @@ class DatabaseManager
 	public $txtPassword;
 	public $txtDatabase;
 
+	public $databaseConnexion;
+	public $objRequest;
+
 	//-- METHODS
 
 	// CONSTRUCTOR
-	function __construct ()
+	function __construct ($objSite)
 	{
-		// WRITE YOUR CODE HERE
-		$this->txtHostname 	= "localhost";
-		$this->txtUser 		= "root";
-		$this->txtPassword 	= "";
-		$this->txtDatabase 	= "haiku";
-		
-		//$this->txtDatabase 	= "";
+		$this->databaseConnexion 	= null;
+		$this->objRequest 			= null;
+		$this->txtDatabase 			= "";
+
+		if ($objSite != null)
+		{
+			$this->txtHostname 	= $objSite->txtHostname;
+			$this->txtUser 		= $objSite->txtUser;
+			$this->txtPassword 	= $objSite->txtPassword;
+			$this->txtDatabase 	= $objSite->txtDatabase;
+		}
 
 		if ($this->txtDatabase)
 		{
@@ -38,16 +45,35 @@ class DatabaseManager
 
 			try
 			{
-			    $dbh = new PDO($dsn, $this->txtUser, $this->txtPassword);
+			    $this->databaseConnexion = new PDO($dsn, $this->txtUser, $this->txtPassword);
 			}
 			catch (PDOException $e)
 			{
 			    echo 'Connection failed: ' . $e->getMessage();
 				exit;
 			}
-
 		}
 	}
 
+	function prepare ($txtSQL)
+	{
+		if ($this->databaseConnexion != null)
+		{
+			$this->objRequest = $this->databaseConnexion->prepare($txtSQL);
+		}
+
+		return $this;
+	}
+
+	function exec ()
+	{
+		if ($this->objRequest != null)
+		{
+			$this->objRequest->execute();			
+		}
+
+		return $this;
+
+	}
 	//-- CLASS CODE ENDS
 };

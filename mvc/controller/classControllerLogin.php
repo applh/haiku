@@ -32,7 +32,6 @@ class ControllerLogin
 		$this-> processForm ();
 	}
 
-
 	function processForm ()
 	{
 		if ( $this->action == "login" )

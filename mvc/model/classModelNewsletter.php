@@ -1,23 +1,23 @@
 <?php
 
 /*
-* class:		ModelPage
-* creation:		2015-04-21 21:08:32
+* class:		ModelNewsletter
+* creation:		2015-04-22 01:38:39
 *
 * author:		Long Hai
 * license:		All rights reserved
 *
 */
 
-class ModelPage
-	extends ModelParent
+class ModelNewsletter
 {
 	//-- CLASS CODE BEGINS
 
 	//-- ATTRIBUTES
-	public $name;
-	public $content;
-	public $start;
+	public $email;
+	public $date;
+	public $ip;
+
 
 	//-- METHODS
 
@@ -25,7 +25,7 @@ class ModelPage
 	function __construct ()
 	{
 		// WRITE YOUR CODE HERE
-		$this->txtTable = "pages";
+		$this->txtTable = "newsletters";
 	}
 
 	//-- CLASS CODE ENDS

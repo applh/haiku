@@ -37,6 +37,9 @@ class ControllerContact
 
 		if ($email && $name && $message)
 		{
+			// MODEL
+			$model = new ModelContact;
+
 			// CHECK INSTALL
 			$txtDataDir = $this->findFile("form-contact");
 			if ( !is_dir($txtDataDir) )

@@ -1,23 +1,24 @@
 <?php
 
 /*
-* class:		ModelPage
-* creation:		2015-04-21 21:08:32
+* class:		ModelContact
+* creation:		2015-04-22 01:38:53
 *
 * author:		Long Hai
 * license:		All rights reserved
 *
 */
 
-class ModelPage
-	extends ModelParent
+class ModelContact
 {
 	//-- CLASS CODE BEGINS
 
 	//-- ATTRIBUTES
+	public $email;
 	public $name;
-	public $content;
-	public $start;
+	public $message;
+	public $date;
+	public $ip;
 
 	//-- METHODS
 
@@ -25,7 +26,7 @@ class ModelPage
 	function __construct ()
 	{
 		// WRITE YOUR CODE HERE
-		$this->txtTable = "pages";
+		$this->txtTable = "contacts";
 	}
 
 	//-- CLASS CODE ENDS

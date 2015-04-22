@@ -12,13 +12,14 @@
 class ControllerParent
 {
 	//-- CLASS CODE BEGINS
+
+	//-- ATTRIBUTES
 	public $txtBaseDir;
 	public $txtCookieName;
 
 	public $txtMessage;
 
-	//-- ATTRIBUTES
-
+	public $objSite;
 
 	//-- METHODS
 
@@ -26,13 +27,15 @@ class ControllerParent
 	function __construct ()
 	{
 		// get parent dir
-		$this->txtBaseDir = dirname(__DIR__);
+		$this->txtBaseDir 	= dirname(__DIR__);
 
 		// cookie
-		$this->cookieName = "haikuCookie64";
+		$this->cookieName 	= "haikuCookie64";
 
 		// message from form controller
-		$this->txtMessage = "";
+		$this->txtMessage 	= "";
+
+		$this->objSite		= null;
 	}
 
 	// check the input value
@@ -85,6 +88,9 @@ class ControllerParent
 		// TEMP CODE
 		$result 	= false;
 
+		// MODEL
+		$user = new ModelUser;
+		
 		$email0 	= "haiku@gmail.com";
 		$password0 	= "haiku";
 
@@ -170,7 +176,7 @@ class ControllerParent
 	{
 		$result = "";
 		// TODO
-		$dbManager = new DatabaseManager;
+		$dbManager = new DatabaseManager($this->objSite);
 		$modelPage = new ModelPage;
 
 		return $result;

@@ -35,6 +35,10 @@ class ControllerNewsletter
 
 		if ($email)
 		{
+			// MODEL
+			$model = new ModelNewsletter;
+
+
 			// CHECK INSTALL
 			$txtDataDir = $this->findFile("form-newsletter");
 			if ( !is_dir($txtDataDir) )

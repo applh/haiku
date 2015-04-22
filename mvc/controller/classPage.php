@@ -22,7 +22,6 @@ class Page
 	public $hasAccess;
 	public $tabTranslate;
 
-	public $objSite;
 
 	//-- METHODS
 

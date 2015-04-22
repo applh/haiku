@@ -14,6 +14,11 @@ class Site
 	//-- CLASS CODE BEGINS
 
 	//-- ATTRIBUTES
+	public $txtHostname;
+	public $txtUser;
+	public $txtPassword;
+	public $txtDatabase;
+
 	public $tabTranslate;
 
 	//-- METHODS
@@ -23,6 +28,13 @@ class Site
 	{
 		// WRITE YOUR CODE HERE
 		$this->tabTranslate = [];
+
+		// DATABASE CONFIGURATION
+		$this->txtHostname 	= "localhost";
+		$this->txtUser 		= "root";
+		$this->txtPassword 	= "";
+		$this->txtDatabase 	= "haiku";
+
 	}
 
 	function replace ($txtFrom, $txtTo)
@@ -40,15 +52,15 @@ class Site
 		// SPECIFIC FOR A PAGE
 		if ($txtPageName == "index")
 		{
-			$this->replace("=TITLE=", 			"Welcome");
+			$this->replace("=TITLE=", "Welcome");
 		}
 		elseif ($txtPageName == "login")
 		{
-			$this->replace("=TITLE=", 			"Login");
+			$this->replace("=TITLE=", "Login");
 		}
 		elseif ($txtPageName == "private")
 		{
-			$this->replace("=TITLE=", 			"Private");
+			$this->replace("=TITLE=", "Private");
 		}
 
 	}

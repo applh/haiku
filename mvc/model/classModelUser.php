@@ -1,23 +1,25 @@
 <?php
 
 /*
-* class:		ModelPage
-* creation:		2015-04-21 21:08:32
+* class:		ModelUser
+* creation:		2015-04-22 01:26:50
 *
 * author:		Long Hai
 * license:		All rights reserved
 *
 */
 
-class ModelPage
+class ModelUser
 	extends ModelParent
 {
 	//-- CLASS CODE BEGINS
 
 	//-- ATTRIBUTES
-	public $name;
-	public $content;
-	public $start;
+	public $email;
+	public $password;
+	public $level;
+	public $date;
+
 
 	//-- METHODS
 
@@ -25,7 +27,7 @@ class ModelPage
 	function __construct ()
 	{
 		// WRITE YOUR CODE HERE
-		$this->txtTable = "pages";
+		$this->txtTable = "users";
 	}
 
 	//-- CLASS CODE ENDS
