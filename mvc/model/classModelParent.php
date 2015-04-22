@@ -15,7 +15,7 @@ class ModelParent
 
 	//-- ATTRIBUTES
 	public $txtTable;
-	
+
 	public $id;
 
 	//-- METHODS
@@ -24,6 +24,13 @@ class ModelParent
 	function __construct ()
 	{
 		// WRITE YOUR CODE HERE
+	}
+
+	function buildHTML ()
+	{
+		$result = "<tr><td>{$this->id}</td></tr>";
+
+		return $result;
 	}
 
 	//-- CLASS CODE ENDS

@@ -28,5 +28,21 @@ class ModelPage
 		$this->txtTable = "pages";
 	}
 
+	function buildHTML ()
+	{
+		$result =
+<<<CODEHTML
+<tr>
+	<td>{$this->id}</td>
+	<td>{$this->name}</td>
+	<td><pre>{$this->content}</pre></td>
+	<td>{$this->start}</td>
+	<td><a href="?formhid=deleteTable&table={$this->txtTable}&id={$this->id}">delete</a></td>
+</tr>
+CODEHTML;
+
+		return $result;
+	}
+
 	//-- CLASS CODE ENDS
 };

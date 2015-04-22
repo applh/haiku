@@ -29,5 +29,22 @@ class ModelContact
 		$this->txtTable = "contacts";
 	}
 
+	function buildHTML ()
+	{
+		$result =
+<<<CODEHTML
+<tr>
+	<td>{$this->id}</td>
+	<td>{$this->email}</td>
+	<td><pre>{$this->message}</pre></td>
+	<td>{$this->date}</td>
+	<td>{$this->ip}</td>
+	<td><a href="?formhid=deleteTable&table={$this->txtTable}&id={$this->id}">delete</a></td>
+</tr>
+CODEHTML;
+
+		return $result;
+	}
+
 	//-- CLASS CODE ENDS
 };

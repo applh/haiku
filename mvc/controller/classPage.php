@@ -20,6 +20,7 @@ class Page
 	public $pageName;
 	public $pageContent;
 	public $hasAccess;
+	public $userOK;
 	public $tabTranslate;
 
 
@@ -35,6 +36,7 @@ class Page
 		$this->pageContent 	= "";
 		$this->pageName 	= "index";
 		$this->hasAccess    = true;
+		$this->userOK    	= false;
 
 		$this->tabTranslate	= [];
 
@@ -53,6 +55,9 @@ class Page
 			// PROCESS THE FORMS
 			$this->processForm();
 
+			// PREPARE THE CONTENT TO DISPLAY
+			$this->objSite->prepareContent($this->pageName);
+
 			// SHOW THE PAGE CONTENT
 			$this->showContent();
 
@@ -67,9 +72,9 @@ class Page
 			// THIS IS A PRIVATE PAGE
 			$this->hasAccess = false;
 			// NEED TO CHECK USER
-			$userOK = $this-> checkUserCookie ();
+			$this->userOK = $this-> checkUserCookie ();
 
-			if (! $userOK)
+			if (! $this->userOK)
 			{
 				header('Location: login.php');
 			}
@@ -117,6 +122,23 @@ class Page
 				$this->objSite->replace(	"=MESSAGE_LOGIN=",
 											$controllerForm->txtMessage );
 			}
+
+			// WARNING
+			// PROTECTED ACTIONS
+			if ($this->userOK)
+			{
+				if ($formhid == "deleteTable")
+				{
+					// PROCESS NEWSLETTER FORM
+					$controllerForm = new ControllerDatabase(
+											$formhid,
+											$this->objSite->getDbManager() );
+											
+					$this->objSite->replace(	"=MESSAGE_ACTION=",
+												$controllerForm->txtMessage );
+				}
+			}
+
 		}
 	}
 

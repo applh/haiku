@@ -30,5 +30,22 @@ class ModelUser
 		$this->txtTable = "users";
 	}
 
+	function buildHTML ()
+	{
+		$result =
+<<<CODEHTML
+<tr>
+	<td>{$this->id}</td>
+	<td>{$this->email}</td>
+	<td>{$this->password}</td>
+	<td>{$this->level}</td>
+	<td>{$this->date}</td>
+	<td><a href="?formhid=deleteTable&table={$this->txtTable}&id={$this->id}">delete</a></td>
+</tr>
+CODEHTML;
+
+		return $result;
+	}
+
 	//-- CLASS CODE ENDS
 };

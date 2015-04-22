@@ -19,6 +19,8 @@ class Site
 	public $txtPassword;
 	public $txtDatabase;
 
+	public $objDbManager;
+
 	public $tabTranslate;
 
 	//-- METHODS
@@ -28,6 +30,7 @@ class Site
 	{
 		// WRITE YOUR CODE HERE
 		$this->tabTranslate = [];
+		$this->objDbManager = null;
 
 		// DATABASE CONFIGURATION
 		$this->txtHostname 	= "localhost";
@@ -35,6 +38,15 @@ class Site
 		$this->txtPassword 	= "";
 		$this->txtDatabase 	= "haiku";
 
+	}
+
+	function getDbManager ()
+	{
+		if ($this->objDbManager == null)
+		{
+			$this->objDbManager = new DatabaseManager($this);
+		}
+		return $this->objDbManager;
 	}
 
 	function replace ($txtFrom, $txtTo)
@@ -60,7 +72,11 @@ class Site
 		}
 		elseif ($txtPageName == "private")
 		{
-			$this->replace("=TITLE=", "Private");
+			$this->replace("=TITLE=", "(Private)");
+		}
+		elseif ($txtPageName == "private-users")
+		{
+			$this->replace("=TITLE=", "Users (Private)");
 		}
 
 	}
@@ -71,5 +87,27 @@ class Site
 		return $this->tabTranslate;
 	}
 
+	function prepareContent ($txtPageName)
+	{
+		if ($txtPageName == "private-users")
+		{
+			$dbManager = $this->getDbManager();
+			$htmlTable = $dbManager->readTable("users", "ModelUser");
+			$this->replace("=TABLE_DATABASE=", $htmlTable);
+		}
+		elseif ($txtPageName == "private-contacts")
+		{
+			$dbManager = $this->getDbManager();
+			$htmlTable = $dbManager->readTable("contacts", "ModelContact");
+			$this->replace("=TABLE_DATABASE=", $htmlTable);
+		}
+		elseif ($txtPageName == "private-newsletters")
+		{
+			$dbManager = $this->getDbManager();
+			$htmlTable = $dbManager->readTable("newsletters", "ModelNewsletter");
+			$this->replace("=TABLE_DATABASE=", $htmlTable);
+		}
+
+	}
 	//-- CLASS CODE ENDS
 };

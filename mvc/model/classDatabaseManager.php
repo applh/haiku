@@ -59,7 +59,19 @@ class DatabaseManager
 	{
 		if ($this->databaseConnexion != null)
 		{
-			$this->objRequest = $this->databaseConnexion->prepare($txtSQL);
+			try
+			{
+				// DEBUG
+				//echo $txtSQL;
+				//exit;
+				
+				$this->objRequest = $this->databaseConnexion->prepare($txtSQL);
+			}
+			catch (PDOException $e)
+			{
+			    echo 'Connection failed: ' . $e->getMessage();
+				exit;
+			}
 		}
 
 		return $this;
@@ -69,11 +81,79 @@ class DatabaseManager
 	{
 		if ($this->objRequest != null)
 		{
-			$this->objRequest->execute();			
+			try
+			{
+				$this->objRequest->execute();
+			}
+			catch (PDOException $e)
+			{
+			    echo 'Connection failed: ' . $e->getMessage();
+				exit;
+			}
 		}
 
 		return $this;
 
 	}
+
+	function fetchObject ($txtClassName)
+	{
+		$objResult = null;
+		if ($this->objRequest != null)
+		{
+			$objResult = $this->objRequest->fetchObject($txtClassName);
+		}
+		else
+		{
+			echo 'DB ERROR: NO REQUEST';
+			exit;
+		}
+		return $objResult;
+	}
+
+
+	function readTable ($txtTableName, $txtClassName)
+	{
+		$txtSQL =
+<<<CODESQL
+SELECT * FROM $txtTableName;
+CODESQL;
+
+		// LAUNCH THE SQL REQUEST
+		$this->prepare($txtSQL)
+					->exec();
+
+		$htmlTable = '<table class="table"><tbody>';
+		// GET EACH LINE AS AN OBJECT
+		while ( $objLigne = $this->fetchObject($txtClassName) )
+		{
+			$htmlLine = $objLigne->buildHTML();
+			$htmlTable = $htmlTable . $htmlLine;
+		}
+
+		$htmlTable = $htmlTable . '</tbody></table>';
+
+		return $htmlTable;
+	}
+
+	function deleteTableLine ($txtTableName, $nbrId)
+	{
+		// FORCE  A NUMBER FOR ID
+		$nbrId = intval($nbrId);
+
+		$txtSQL =
+<<<CODESQL
+DELETE FROM $txtTableName
+WHERE
+id = $nbrId;
+CODESQL;
+
+		// LAUNCH THE SQL REQUEST
+		$this->prepare($txtSQL)
+					->exec();
+
+	}
+
+
 	//-- CLASS CODE ENDS
 };

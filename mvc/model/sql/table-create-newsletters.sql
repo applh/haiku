@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost
--- Généré le :  Mer 22 Avril 2015 à 01:54
+-- Généré le :  Mer 22 Avril 2015 à 21:55
 -- Version du serveur :  5.6.21
 -- Version de PHP :  5.6.3
 
@@ -29,8 +29,8 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `newsletters` (
 `id` bigint(20) NOT NULL,
   `email` text NOT NULL,
-  `date` text NOT NULL,
-  `ip` datetime NOT NULL
+  `date` datetime NOT NULL,
+  `ip` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
