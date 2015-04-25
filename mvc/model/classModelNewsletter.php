@@ -63,5 +63,27 @@ CODESQL;
 					->exec();
 	}
 
+	function update ($dbManager, $id, $ip, $email, $now, $ip)
+	{
+		$sqlRequest =
+<<<CODESQL
+
+UPDATE `newsletters`
+SET
+`email`	= :email,
+`date`	= :date,
+`ip` 	= :ip
+WHERE
+`newsletters`.`id` = :id;
+CODESQL;
+
+		$dbManager	->prepare($sqlRequest)
+					->replace(":id", 	$id, 	PDO::PARAM_INT)
+					->replace(":email", $email, PDO::PARAM_STR)
+					->replace(":date", 	$now, 	PDO::PARAM_STR)
+					->replace(":ip", 	$ip, 	PDO::PARAM_STR)
+					->exec();
+	}
+
 	//-- CLASS CODE ENDS
 };

@@ -57,7 +57,7 @@ VALUES
 (NULL, :email, :name, :message, :date, :ip);
 
 CODESQL;
-		
+
 		$dbManager	->prepare($sqlRequest)
 					->replace(":email", 	$email, PDO::PARAM_STR)
 					->replace(":name", 		$email, PDO::PARAM_STR)
@@ -67,6 +67,35 @@ CODESQL;
 					->exec();
 
 	}
+
+	function update ($dbManager, $id, $email, $name, $message, $now, $ip)
+	{
+		$sqlRequest =
+<<<CODESQL
+
+UPDATE `contacts`
+SET
+`email`	 	= :email,
+`name` 		= :name,
+`message` 	= :message,
+`date` 		= :date,
+`ip` 		= :ip
+WHERE
+`contacts`.`id` = :id;
+
+CODESQL;
+
+		$dbManager	->prepare($sqlRequest)
+					->replace(":id", 		$id, 	PDO::PARAM_INT)
+					->replace(":email", 	$email, PDO::PARAM_STR)
+					->replace(":name", 		$email, PDO::PARAM_STR)
+					->replace(":message", 	$email, PDO::PARAM_STR)
+					->replace(":date", 		$now, 	PDO::PARAM_STR)
+					->replace(":ip", 		$ip, 	PDO::PARAM_STR)
+					->exec();
+
+	}
+
 
 	//-- CLASS CODE ENDS
 };
