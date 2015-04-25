@@ -20,6 +20,7 @@ class ControllerParent
 	public $txtMessage;
 
 	public $objSite;
+	public $useDatabase;
 
 	//-- METHODS
 
@@ -36,6 +37,7 @@ class ControllerParent
 		$this->txtMessage 	= "";
 
 		$this->objSite		= null;
+		$this->useDatabase  = false;
 	}
 
 	// check the input value
@@ -90,7 +92,7 @@ class ControllerParent
 
 		// MODEL
 		$user = new ModelUser;
-		
+
 		$email0 	= "haiku@gmail.com";
 		$password0 	= "haiku";
 

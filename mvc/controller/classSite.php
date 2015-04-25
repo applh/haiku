@@ -10,6 +10,7 @@
 */
 
 class Site
+	extends ControllerParent
 {
 	//-- CLASS CODE BEGINS
 
@@ -22,15 +23,19 @@ class Site
 	public $objDbManager;
 
 	public $tabTranslate;
+	public $userLevel;
 
 	//-- METHODS
 
 	// CONSTRUCTOR
 	function __construct ()
 	{
+		parent::__construct();
+
 		// WRITE YOUR CODE HERE
 		$this->tabTranslate = [];
 		$this->objDbManager = null;
+		$this->userLevel	= 0;
 
 		// DATABASE CONFIGURATION
 		$this->txtHostname 	= "localhost";
@@ -47,6 +52,14 @@ class Site
 			$this->objDbManager = new DatabaseManager($this);
 		}
 		return $this->objDbManager;
+	}
+
+	function hasDatabase ()
+	{
+		// TO IMPROVE
+		$resultat = ($this->txtDatabase != "");
+
+		return $resultat;
 	}
 
 	function replace ($txtFrom, $txtTo)
@@ -109,5 +122,62 @@ class Site
 		}
 
 	}
+
+	function processForm ()
+	{
+		$formhid = $this->getInput("formhid");
+		if ($formhid != "")
+		{
+			// PROCESS EACH FORM HERE
+			if ($formhid == "contact")
+			{
+				// PROCESS CONTACT FORM
+				$controllerForm = new ControllerContact( $this->getDbManager() );
+
+				$this->replace(	"=MESSAGE_CONTACT=",
+								$controllerForm->txtMessage );
+			}
+			elseif ($formhid == "newsletter")
+			{
+				// PROCESS NEWSLETTER FORM
+				$controllerForm = new ControllerNewsletter( $this->getDbManager() );
+
+				$this->replace(	"=MESSAGE_NEWSLETTER=",
+								$controllerForm->txtMessage );
+			}
+			elseif ($formhid == "login")
+			{
+				// PROCESS NEWSLETTER FORM
+				$controllerForm = new ControllerLogin($formhid);
+				$this->replace(	"=MESSAGE_LOGIN=",
+								$controllerForm->txtMessage );
+			}
+			elseif ($formhid == "logout")
+			{
+				// PROCESS NEWSLETTER FORM
+				$controllerForm = new ControllerLogin($formhid);
+				$this->replace(	"=MESSAGE_LOGIN=",
+								$controllerForm->txtMessage );
+			}
+
+			// WARNING
+			// PROTECTED ACTIONS
+			if ($this->userLevel > 0)
+			{
+				if ($formhid == "deleteTable")
+				{
+					// PROCESS NEWSLETTER FORM
+					$controllerForm = new ControllerDatabase(
+											$formhid,
+											$this->getDbManager() );
+
+					$this->replace(	"=MESSAGE_ACTION=",
+									$controllerForm->txtMessage );
+				}
+			}
+
+		}
+	}
+
 	//-- CLASS CODE ENDS
 };

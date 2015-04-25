@@ -21,12 +21,14 @@ class DatabaseManager
 
 	public $databaseConnexion;
 	public $objRequest;
+	public $isReady;
 
 	//-- METHODS
 
 	// CONSTRUCTOR
 	function __construct ($objSite)
 	{
+		$this->isReady				= false;
 		$this->databaseConnexion 	= null;
 		$this->objRequest 			= null;
 		$this->txtDatabase 			= "";
@@ -46,6 +48,7 @@ class DatabaseManager
 			try
 			{
 			    $this->databaseConnexion = new PDO($dsn, $this->txtUser, $this->txtPassword);
+				$this->isReady = true;
 			}
 			catch (PDOException $e)
 			{
@@ -64,7 +67,7 @@ class DatabaseManager
 				// DEBUG
 				//echo $txtSQL;
 				//exit;
-				
+
 				$this->objRequest = $this->databaseConnexion->prepare($txtSQL);
 			}
 			catch (PDOException $e)
@@ -74,6 +77,15 @@ class DatabaseManager
 			}
 		}
 
+		return $this;
+	}
+
+	function replace($tag, $value, $datatype = PDO::PARAM_STR)
+	{
+		if ($this->objRequest != null)
+		{
+			$this->objRequest->bindValue($tag, $value, $datatype);
+		}
 		return $this;
 	}
 

@@ -20,16 +20,47 @@ class ControllerContact
 	//-- METHODS
 
 	// CONSTRUCTOR
-	function __construct ()
+	function __construct ($dbManager)
 	{
 		// DO THE PARENT CONSTRUCTOR
 		parent::__construct();
 
 		// PROCESS THE CONTACT FORM
-		$this->processForm();
+		if ($dbManager->isReady)
+		{
+			$this->processForm($dbManager);
+		}
+		else
+		{
+			$this->processFormTxt();
+		}
 	}
 
-	function processForm ()
+	function processForm ($dbManager)
+	{
+		$email 		= $this->getInput("email");
+		$name 		= $this->getInput("name");
+		$message 	= $this->getInput("message");
+
+		if ($email && $name && $message)
+		{
+
+			$now = date("Ymd-His");
+			$ip  = $_SERVER["REMOTE_ADDR"];
+
+			// MODEL
+			$model = new ModelContact($dbManager);
+			$model->create($dbManager, $email, $name, $message, $now, $ip);
+
+			$this->txtMessage = "THANKS FOR YOUR MESSAGE";
+		}
+		else
+		{
+			$this->txtMessage = "THANKS TO COMPLETE MISSING INFORMATION";
+		}
+	}
+
+	function processFormTxt ()
 	{
 		$email 		= $this->getInput("email");
 		$name 		= $this->getInput("name");

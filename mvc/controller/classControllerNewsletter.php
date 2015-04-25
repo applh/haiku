@@ -20,16 +20,44 @@ class ControllerNewsletter
 	//-- METHODS
 
 	// CONSTRUCTOR
-	function __construct ()
+	function __construct ($dbManager)
 	{
 		// DO THE PARENT CONSTRUCTOR
 		parent::__construct();
 
 		// PROCESS THE CONTACT FORM
-		$this->processForm();
+		if ($dbManager->isReady)
+		{
+			$this->processForm($dbManager);
+		}
+		else
+		{
+			$this->processFormTxt();
+		}
+
 	}
 
-	function processForm ()
+	function processForm ($dbManager)
+	{
+		$email 		= $this->getInput("email");
+
+		if ($email)
+		{
+			$now = date("Ymd-His");
+			$ip  = $_SERVER["REMOTE_ADDR"];
+			// MODEL
+			$model = new ModelNewsletter;
+			$model->create($dbManager, $email, $now, $ip);
+
+			$this->txtMessage = "THANKS FOR YOUR INTEREST";
+		}
+		else
+		{
+			$this->txtMessage = "THANKS TO ENTER AN EMAIL";
+		}
+	}
+
+	function processFormTxt ()
 	{
 		$email 		= $this->getInput("email");
 
@@ -37,7 +65,8 @@ class ControllerNewsletter
 		{
 			// MODEL
 			$model = new ModelNewsletter;
-
+			$now = date("Ymd-His");
+			$ip  = $_SERVER["REMOTE_ADDR"];
 
 			// CHECK INSTALL
 			$txtDataDir = $this->findFile("form-newsletter");
@@ -46,9 +75,6 @@ class ControllerNewsletter
 				$txtDataDir = $this->txtBaseDir."/data-txt/form-newsletter";
 				mkdir($txtDataDir, 0777, true);
 			}
-
-			$now = date("Ymd-His");
-			$ip  = $_SERVER["REMOTE_ADDR"];
 
 			$txtSaveFile = "$txtDataDir/newsletter.csv";
 

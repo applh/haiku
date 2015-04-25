@@ -53,7 +53,7 @@ class Page
 		if ($accessOK)
 		{
 			// PROCESS THE FORMS
-			$this->processForm();
+			$this->objSite->processForm();
 
 			// PREPARE THE CONTENT TO DISPLAY
 			$this->objSite->prepareContent($this->pageName);
@@ -81,66 +81,14 @@ class Page
 			else
 			{
 				$this->hasAccess = true;
+				// TO IMPROVE
+				$this->objSite->userLevel = 1;
 			}
 		}
 
 		return $this->hasAccess;
 	}
 
-	function processForm ()
-	{
-		$formhid = $this->getInput("formhid");
-		if ($formhid != "")
-		{
-			// PROCESS EACH FORM HERE
-			if ($formhid == "contact")
-			{
-				// PROCESS CONTACT FORM
-				$controllerForm = new ControllerContact;
-
-				$this->objSite->replace(	"=MESSAGE_CONTACT=",
-											$controllerForm->txtMessage );
-			}
-			elseif ($formhid == "newsletter")
-			{
-				// PROCESS NEWSLETTER FORM
-				$controllerForm = new ControllerNewsletter;
-				$this->objSite->replace(	"=MESSAGE_NEWSLETTER=",
-											$controllerForm->txtMessage );
-			}
-			elseif ($formhid == "login")
-			{
-				// PROCESS NEWSLETTER FORM
-				$controllerForm = new ControllerLogin($formhid);
-				$this->objSite->replace(	"=MESSAGE_LOGIN=",
-											$controllerForm->txtMessage );
-			}
-			elseif ($formhid == "logout")
-			{
-				// PROCESS NEWSLETTER FORM
-				$controllerForm = new ControllerLogin($formhid);
-				$this->objSite->replace(	"=MESSAGE_LOGIN=",
-											$controllerForm->txtMessage );
-			}
-
-			// WARNING
-			// PROTECTED ACTIONS
-			if ($this->userOK)
-			{
-				if ($formhid == "deleteTable")
-				{
-					// PROCESS NEWSLETTER FORM
-					$controllerForm = new ControllerDatabase(
-											$formhid,
-											$this->objSite->getDbManager() );
-											
-					$this->objSite->replace(	"=MESSAGE_ACTION=",
-												$controllerForm->txtMessage );
-				}
-			}
-
-		}
-	}
 
 	// TEMPLATE ENGINE
 	// replace tags (e.g =MYTAGS= with final content)

@@ -46,5 +46,27 @@ CODEHTML;
 		return $result;
 	}
 
+	function create ($dbManager, $email, $name, $message, $now, $ip)
+	{
+		$sqlRequest =
+<<<CODESQL
+
+INSERT INTO `contacts`
+(`id`, `email`, `name`, `message`, `date`, `ip`)
+VALUES
+(NULL, :email, :name, :message, :date, :ip);
+
+CODESQL;
+		
+		$dbManager	->prepare($sqlRequest)
+					->replace(":email", 	$email, PDO::PARAM_STR)
+					->replace(":name", 		$email, PDO::PARAM_STR)
+					->replace(":message", 	$email, PDO::PARAM_STR)
+					->replace(":date", 		$now, 	PDO::PARAM_STR)
+					->replace(":ip", 		$ip, 	PDO::PARAM_STR)
+					->exec();
+
+	}
+
 	//-- CLASS CODE ENDS
 };

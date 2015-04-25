@@ -44,5 +44,24 @@ CODEHTML;
 		return $result;
 	}
 
+	function create ($dbManager, $email, $now, $ip)
+	{
+		$sqlRequest =
+<<<CODESQL
+
+INSERT INTO `newsletters`
+(`id`, `email`, `date`, `ip`)
+VALUES
+(NULL, :email, :date, :ip);
+
+CODESQL;
+
+		$dbManager	->prepare($sqlRequest)
+					->replace(":email", $email, PDO::PARAM_STR)
+					->replace(":date", 	$now, 	PDO::PARAM_STR)
+					->replace(":ip", 	$ip, 	PDO::PARAM_STR)
+					->exec();
+	}
+
 	//-- CLASS CODE ENDS
 };
