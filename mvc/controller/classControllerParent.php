@@ -21,7 +21,9 @@ class ControllerParent
 
 	public $objSite;
 	public $useDatabase;
-
+	
+	public $tabError;
+	
 	//-- METHODS
 
 	// CONSTRUCTOR
@@ -38,8 +40,40 @@ class ControllerParent
 
 		$this->objSite		= null;
 		$this->useDatabase  = false;
+		
+		$this->tabError = [];
 	}
 
+	public checkInput ($name, $errorMessage)
+	{
+		$val = $this->getInput($name);
+		if ($val == "")
+		{
+			// add the error message
+			$this->tabError[] = $errorMessage;
+		}		
+		// allow chained syntax
+		return $this;	
+	}
+
+	public checkEmail ($name, $errorMessage)
+	{
+		$val = $this->getInput($name);
+		$email2 = filter_var($val, FILTER_VALIDATE_EMAIL);
+		if (($val == "") || ($val != $email2))
+		{
+			// add the error message
+			$this->tabError[] = $errorMessage;
+		}
+		// allow chained syntax
+		return $this;	
+	}
+	
+	public countError ()
+	{
+		return count($this->tabError);
+	}
+	
 	// check the input value
 	// returns the input value if found
 	// else returns a default value ("")
