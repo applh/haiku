@@ -71,25 +71,25 @@ class Site
 	function setup ($txtPageName)
 	{
 		// COMMON TO THE SITE
-		$this->replace(	"=LOGO=",
+		$this->replace(	"=:LOGO:=",
 						'<h3 class="masthead-brand"><a href="index.php">Haiku</a></h3>');
 
 		// SPECIFIC FOR A PAGE
 		if ($txtPageName == "index")
 		{
-			$this->replace("=TITLE=", "Welcome");
+			$this->replace("=:TITLE:=", "Welcome");
 		}
 		elseif ($txtPageName == "login")
 		{
-			$this->replace("=TITLE=", "Login");
+			$this->replace("=:TITLE:=", "Login");
 		}
 		elseif ($txtPageName == "private")
 		{
-			$this->replace("=TITLE=", "(Private)");
+			$this->replace("=:TITLE:=", "(Private)");
 		}
 		elseif ($txtPageName == "private-users")
 		{
-			$this->replace("=TITLE=", "Users (Private)");
+			$this->replace("=:TITLE:=", "Users (Private)");
 		}
 
 	}
@@ -106,19 +106,19 @@ class Site
 		{
 			$dbManager = $this->getDbManager();
 			$htmlTable = $dbManager->readTable("users", "ModelUser");
-			$this->replace("=TABLE_DATABASE=", $htmlTable);
+			$this->replace("=:TABLE_DATABASE:=", $htmlTable);
 		}
 		elseif ($txtPageName == "private-contacts")
 		{
 			$dbManager = $this->getDbManager();
 			$htmlTable = $dbManager->readTable("contacts", "ModelContact");
-			$this->replace("=TABLE_DATABASE=", $htmlTable);
+			$this->replace("=:TABLE_DATABASE:=", $htmlTable);
 		}
 		elseif ($txtPageName == "private-newsletters")
 		{
 			$dbManager = $this->getDbManager();
 			$htmlTable = $dbManager->readTable("newsletters", "ModelNewsletter");
-			$this->replace("=TABLE_DATABASE=", $htmlTable);
+			$this->replace("=:TABLE_DATABASE:=", $htmlTable);
 		}
 
 	}
@@ -142,21 +142,21 @@ class Site
 				// PROCESS NEWSLETTER FORM
 				$controllerForm = new ControllerNewsletter( $this->getDbManager() );
 
-				$this->replace(	"=MESSAGE_NEWSLETTER=",
+				$this->replace(	"=:MESSAGE_NEWSLETTER:=",
 								$controllerForm->txtMessage );
 			}
 			elseif ($formhid == "login")
 			{
 				// PROCESS NEWSLETTER FORM
 				$controllerForm = new ControllerLogin($formhid);
-				$this->replace(	"=MESSAGE_LOGIN=",
+				$this->replace(	"=:MESSAGE_LOGIN:=",
 								$controllerForm->txtMessage );
 			}
 			elseif ($formhid == "logout")
 			{
 				// PROCESS NEWSLETTER FORM
 				$controllerForm = new ControllerLogin($formhid);
-				$this->replace(	"=MESSAGE_LOGIN=",
+				$this->replace(	"=:MESSAGE_LOGIN:=",
 								$controllerForm->txtMessage );
 			}
 
