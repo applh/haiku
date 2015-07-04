@@ -45,7 +45,7 @@ $haiku_page_name = function ()
 	}
 	else
 	{
-		$txtFileName= "index";				
+		$txtFileName= "index";
 	}
 
 	$result = $txtFileName;
@@ -68,8 +68,8 @@ $haiku_generate_class = function ($txtClass)
 		$txtTargetFile 	= "$txtTargetDir/class$txtClass.php";
 
 		$tabReplace    	= [
-			"=DATE=" 		=> date("Y-m-d H:i:s"),
-			"=TEMPLATE="	=> $txtClass,
+			"=:DATE:=" 		=> date("Y-m-d H:i:s"),
+			"TEMPLATE"	=> $txtClass,
 		];
 
 		$tabSource		= array_keys($tabReplace);

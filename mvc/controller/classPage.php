@@ -133,7 +133,7 @@ class Page
 			$this->pageContent = $this->getFileContent("404.html");
 
 			// SET THE HEADER RESPONSE CODEr
-			header("HTTP/1.0 404 Not Found");
+			header("HTTP/1.1 404 Not Found");
 		}
 
 		$hasHtmlEnd = strpos( $this->pageContent, "</body>");

@@ -1,15 +1,15 @@
 <?php
 
 /*
-* class:		=TEMPLATE=
-* creation:		=DATE=
+* class:		TEMPLATE
+* creation:		=:DATE:=
 *
 * author:		Long Hai
 * license:		All rights reserved
 *
 */
 
-class =TEMPLATE=
+class TEMPLATE
 {
 	//-- CLASS CODE BEGINS
 
