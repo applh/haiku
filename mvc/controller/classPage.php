@@ -106,11 +106,9 @@ class Page
 	function cleanTranslate ()
 	{
 		// REMOVE REMAINING TAGS
-		$pattern = "/=[\w]+=/";
+		$pattern = "/=:[\w]+:=/";
 		$this->pageContent = preg_replace($pattern, "", $this->pageContent);
 	}
-
-
 
 	//
 	function showContent ()
@@ -136,18 +134,26 @@ class Page
 			header("HTTP/1.1 404 Not Found");
 		}
 
+		$hasHtmlHead = strpos( $this->pageContent, "</head>");
+		$txtHtmlHead = "";
+		if ($hasHtmlHead === FALSE)
+		{
+			// MISSING END TAG </head>
+			// FIND HEAD AND FOOT HTML
+			$txtHtmlHead = $this->getFileContent("head.html");
+		}
 		$hasHtmlEnd = strpos( $this->pageContent, "</body>");
+		$txtHtmlFoot = "";
 		if ($hasHtmlEnd === FALSE)
 		{
 			// MISSING END TAG </body>
 			// FIND HEAD AND FOOT HTML
-			$txtHtmlHead = $this->getFileContent("head.html");
 			$txtHtmlFoot = $this->getFileContent("foot.html");
-			// COMPLETE THE PAGE HTML
-			$this->pageContent =
-				$txtHtmlHead . $this->pageContent . $txtHtmlFoot;
 
 		}
+		// COMPLETE THE PAGE HTML
+		$this->pageContent =
+			$txtHtmlHead . $this->pageContent . $txtHtmlFoot;
 
 		$this->replaceContent();
 
