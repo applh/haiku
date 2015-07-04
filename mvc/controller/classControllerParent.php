@@ -44,7 +44,7 @@ class ControllerParent
 		$this->tabError = [];
 	}
 
-	public checkInput ($name, $errorMessage)
+	function checkInput ($name, $errorMessage)
 	{
 		$val = $this->getInput($name);
 		if ($val == "")
@@ -56,7 +56,7 @@ class ControllerParent
 		return $this;	
 	}
 
-	public checkEmail ($name, $errorMessage)
+	function checkEmail ($name, $errorMessage)
 	{
 		$val = $this->getInput($name);
 		$email2 = filter_var($val, FILTER_VALIDATE_EMAIL);
@@ -69,7 +69,7 @@ class ControllerParent
 		return $this;	
 	}
 	
-	public countError ()
+	function countError ()
 	{
 		return count($this->tabError);
 	}
