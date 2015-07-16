@@ -134,7 +134,7 @@ class Site
 				// PROCESS CONTACT FORM
 				$controllerForm = new ControllerContact( $this->getDbManager() );
 
-				$this->replace(	"=MESSAGE_CONTACT=",
+				$this->replace(	"=:MESSAGE_CONTACT:=",
 								$controllerForm->txtMessage );
 			}
 			elseif ($formhid == "newsletter")
@@ -171,7 +171,7 @@ class Site
 											$formhid,
 											$this->getDbManager() );
 
-					$this->replace(	"=MESSAGE_ACTION=",
+					$this->replace(	"=:MESSAGE_ACTION:=",
 									$controllerForm->txtMessage );
 				}
 			}
