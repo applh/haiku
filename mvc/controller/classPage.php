@@ -91,7 +91,7 @@ class Page
 
 
 	// TEMPLATE ENGINE
-	// replace tags (e.g =MYTAGS= with final content)
+	// replace tags (e.g =:MYTAGS:= with final content)
 	function replaceContent ()
 	{
 		$this->tabTranslate = $this->objSite->getTranslate($this->pageName)
@@ -155,11 +155,38 @@ class Page
 		$this->pageContent =
 			$txtHtmlHead . $this->pageContent . $txtHtmlFoot;
 
+		// PARSE THE TAG LIST FROM THE PAGE CONTENT
+		$this->getTags();
+		
 		$this->replaceContent();
 
 		$this->cleanTranslate();
 
 		echo $this->pageContent;
+	}
+	
+	function getTags ()
+	{
+		$resultat = [];
+		$re = "/(=:[\\w+].*:=)/"; 
+		$tabResult = [];
+		
+		preg_match_all($re, $this->pageContent, $tabResult);
+		
+		if (isset($tabResult[1]) && is_array($tabResult[1]))
+		{
+			foreach($tabResult[1] as $tagCode)
+			{
+				// http://php.net/manual/fr/function.parse-url.php
+				$tagCode2 = trim($tagCode, "=[]=");
+				$tag = parse_url($tagCode2, PHP_URL_PATH);
+				$contentTag = new ContentTag;
+				
+				$resultat[] = $tag;
+			}
+
+		}
+		return $resultat;
 	}
 
 	//-- CLASS CODE ENDS

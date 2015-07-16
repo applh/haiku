@@ -60,7 +60,7 @@ $haiku_generate_class = function ($txtClass)
 
 	global $haiku_find_file;
 
-	$txtTemplate = $haiku_find_file("classTemplate.php");
+	$txtTemplate = $haiku_find_file("classTEMPLATE.php");
 	if ($txtTemplate != "")
 	{
 		$txtCodeSource 	= file_get_contents("$txtTemplate");
