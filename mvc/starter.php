@@ -26,6 +26,17 @@ $haiku_find_file = function ($txtFile)
 	return $txtResult;
 };
 
+$haiku_find_content = function ($txtFile)
+{
+	$result = "";
+	global $haiku_find_file;
+	$txtPath = $haiku_find_file($txtFile);
+	if ($txtPath != "")
+	{
+		$result = file_get_contents($txtPath);
+	}
+	return $result;
+};
 
 $haiku_page_name = function ()
 {

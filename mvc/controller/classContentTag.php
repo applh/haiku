@@ -16,6 +16,7 @@ class ContentTag
 	//-- ATTRIBUTES
 	public $tag;
 	public $tagCode;
+	public $content;
 	
 	//-- METHODS
 
@@ -23,6 +24,8 @@ class ContentTag
 	function __construct ($tag, $tagCode)
 	{
 		// WRITE YOUR CODE HERE
+		$this->content = "";
+		
 		$this->tag = $tag;
 		$this->tagCode = $tagCode;
 	}

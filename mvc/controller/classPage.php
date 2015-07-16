@@ -103,6 +103,10 @@ class Page
 		$tabContent = array_values($this->tabTranslate);
 
 		$this->pageContent = str_replace($tabTag, $tabContent, $this->pageContent);
+		
+		$this->getTags();
+		$this->processTagList();
+		
 	}
 
 	function cleanTranslate ()
@@ -169,9 +173,11 @@ class Page
 	
 	function getTags ()
 	{
+		// https://regex101.com/
 		$re = "/(=:[\\w+].*:=)/"; 
 		$tabResult = [];
 		
+		// http://php.net/manual/fr/function.preg-match-all.php
 		preg_match_all($re, $this->pageContent, $tabResult);
 		
 		if (isset($tabResult[1]) && is_array($tabResult[1]))
@@ -179,10 +185,11 @@ class Page
 			foreach($tabResult[1] as $tagCode)
 			{
 				// http://php.net/manual/fr/function.parse-url.php
-				$tagCode2 = trim($tagCode, "=[]=");
+				$tagCode2 = trim($tagCode, "=::=");
 				$tag = parse_url($tagCode2, PHP_URL_PATH);
-				$contentTag = new ContentTag($tag, $tageCode2);
+				$contentTag = new ContentTag($tag, $tagCode);
 				
+				// KEEP THE WHOLE LIST SO KEEP OPEN ITERATION AND ASSOCIATION BETWEEN TAGS
 				$this->tabTag[] = $contentTag;
 			}
 
@@ -190,5 +197,23 @@ class Page
 		return $this->tabTag;
 	}
 
+	function processTagList ()
+	{
+		global $haiku_find_content;
+		
+		foreach ($this->tabTag as $contentTag)
+		{
+			$tag = $contentTag->tag;
+			$htmlFileContent = $haiku_find_content("$tag.html");
+			if ($htmlFileContent != "")
+			{
+				$contentTag->content = $htmlFileContent;
+			}
+			
+			// REPLACE THE TAG WITH CONTENT
+			$this->pageContent = str_replace($contentTag->tagCode, $contentTag->content, $this->pageContent);
+		}
+	}
+	
 	//-- CLASS CODE ENDS
 };
