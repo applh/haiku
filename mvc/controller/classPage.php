@@ -22,8 +22,9 @@ class Page
 	public $hasAccess;
 	public $userOK;
 	public $tabTranslate;
-
-
+	
+	public $tabTag;
+	
 	//-- METHODS
 
 	// CONSTRUCTOR
@@ -39,7 +40,8 @@ class Page
 		$this->userOK    	= false;
 
 		$this->tabTranslate	= [];
-
+		$this->tagTag		= [];
+		
 		if ($txtPageName != "")
 		{
 			$this->pageName = $txtPageName;
@@ -167,7 +169,6 @@ class Page
 	
 	function getTags ()
 	{
-		$resultat = [];
 		$re = "/(=:[\\w+].*:=)/"; 
 		$tabResult = [];
 		
@@ -180,13 +181,13 @@ class Page
 				// http://php.net/manual/fr/function.parse-url.php
 				$tagCode2 = trim($tagCode, "=[]=");
 				$tag = parse_url($tagCode2, PHP_URL_PATH);
-				$contentTag = new ContentTag;
+				$contentTag = new ContentTag($tag, $tageCode2);
 				
-				$resultat[] = $tag;
+				$this->tabTag[] = $contentTag;
 			}
 
 		}
-		return $resultat;
+		return $this->tabTag;
 	}
 
 	//-- CLASS CODE ENDS

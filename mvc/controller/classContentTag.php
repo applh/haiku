@@ -14,14 +14,17 @@ class ContentTag
 	//-- ContentTag CLASS CODE BEGINS
 
 	//-- ATTRIBUTES
-
-
+	public $tag;
+	public $tagCode;
+	
 	//-- METHODS
 
 	// CONSTRUCTOR
-	function __construct ()
+	function __construct ($tag, $tagCode)
 	{
 		// WRITE YOUR CODE HERE
+		$this->tag = $tag;
+		$this->tagCode = $tagCode;
 	}
 
 	//-- ContentTag CLASS CODE ENDS
