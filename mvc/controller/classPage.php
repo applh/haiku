@@ -199,20 +199,48 @@ class Page
 
 	function processTagList ()
 	{
+		global $haiku_find_file;
 		global $haiku_find_content;
 		
 		foreach ($this->tabTag as $contentTag)
 		{
 			$tag = $contentTag->tag;
+			// SEARCH A HTML FILE WITH THE TAG NAME
 			$htmlFileContent = $haiku_find_content("$tag.html");
 			if ($htmlFileContent != "")
 			{
 				$contentTag->content = $htmlFileContent;
 			}
+
+			// CAN ALSO HAVE A PHP FILE
+			// NOTE: IS IT REALLY USEFUL?
+			// SEARCH A PHP FILE WITH THE TAG NAME
+			$phpPathContent = $haiku_find_file("$tag.php");
+			if ($phpPathContent != "")
+			{
+				$this->buildDynamicContent($contentTag, $phpPathContent);
+			}
 			
+
 			// REPLACE THE TAG WITH CONTENT
 			$this->pageContent = str_replace($contentTag->tagCode, $contentTag->content, $this->pageContent);
 		}
+	}
+	
+	function buildDynamicContent ($theTag, $phpPathContent)
+	{
+		// WARNING: CAN PROVOKE ERRORS IF BAD USE
+		// http://php.net/manual/en/function.ob-start.php
+		// START BUFFERING OUTPUT
+		ob_start();
+		
+		// INCLUDE THE PHP FILE
+		include("$phpPathContent");
+		
+		// http://php.net/manual/en/function.ob-get-clean.php
+		// END BUFFERING OUTPUT
+		$theTag->content = ob_get_clean();
+		
 	}
 	
 	//-- CLASS CODE ENDS
