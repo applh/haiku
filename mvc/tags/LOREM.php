@@ -5,4 +5,4 @@
 // NEEDS A ECHO TO BUILD CONTENT
 echo $theTag->val("max");
 
-echo date("H:i:s");ss
+echo date("H:i:s");
