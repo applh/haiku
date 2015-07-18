@@ -3,6 +3,12 @@
 //print_r($theTag);
 
 // NEEDS A ECHO TO BUILD CONTENT
-echo $theTag->val("max");
-
-echo date("H:i:s");
+$max = intval($theTag->val("max", 0));
+if ($max > 0)
+{
+    echo substr($theTag->content, 0, $max);
+}
+else
+{
+    echo $theTag->content;    
+}
