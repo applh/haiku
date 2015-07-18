@@ -218,7 +218,8 @@ class Page
 			$phpPathContent = $haiku_find_file("$tag.php");
 			if ($phpPathContent != "")
 			{
-				$this->buildDynamicContent($contentTag, $phpPathContent);
+				$contentTag->file = $phpPathContent;
+				$this->buildDynamicContent($contentTag);
 			}
 			
 
@@ -227,7 +228,7 @@ class Page
 		}
 	}
 	
-	function buildDynamicContent ($theTag, $phpPathContent)
+	function buildDynamicContent ($theTag)
 	{
 		// WARNING: CAN PROVOKE ERRORS IF BAD USE
 		// http://php.net/manual/en/function.ob-start.php
@@ -235,7 +236,7 @@ class Page
 		ob_start();
 		
 		// INCLUDE THE PHP FILE
-		include("$phpPathContent");
+		include("{$theTag->file}");
 		
 		// http://php.net/manual/en/function.ob-get-clean.php
 		// END BUFFERING OUTPUT

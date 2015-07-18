@@ -17,6 +17,7 @@ class ContentTag
 	public $tag;
 	public $tagCode;
 	public $content;
+	public $file;
 	
 	public $tabQuery;
 	
@@ -27,6 +28,7 @@ class ContentTag
 	{
 		// WRITE YOUR CODE HERE
 		$this->content = "";
+		$this->file = "";
 		
 		$this->tag = $tag;
 		$this->tagCode = $tagCode;
