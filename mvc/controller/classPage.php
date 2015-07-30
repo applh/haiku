@@ -219,7 +219,7 @@ class Page
 			if ($phpPathContent != "")
 			{
 				$contentTag->file = $phpPathContent;
-				$this->buildDynamicContent($contentTag);
+				$this->buildDynamicContent($contentTag, $this);
 			}
 			
 
@@ -228,7 +228,7 @@ class Page
 		}
 	}
 	
-	function buildDynamicContent ($theTag)
+	function buildDynamicContent ($theTag, $thePage)
 	{
 		// WARNING: CAN PROVOKE ERRORS IF BAD USE
 		// http://php.net/manual/en/function.ob-start.php
@@ -244,5 +244,17 @@ class Page
 		
 	}
 	
+	
+	function getMenuClass ($pageName)
+	{
+		$resultat = "";
+		
+		if ($pageName == $this->pageName)
+		{
+			$resultat = "active";
+		}
+		
+		return $resultat;
+	}
 	//-- CLASS CODE ENDS
 };
